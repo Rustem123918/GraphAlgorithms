@@ -1,0 +1,6 @@
+﻿namespace GraphAlgorithms
+{
+    class Edge
+    {
+    }
+}
