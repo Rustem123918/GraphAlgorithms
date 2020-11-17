@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace GraphAlgorithms
 {
-    public static class SearchAlgorithms
+    public static class LabirinthSearchAlgorithms
     {
         //Recursion Depth-First Search
         public static void RecursionDFS(State[,] map, int x, int y)
@@ -11,7 +11,7 @@ namespace GraphAlgorithms
             if (x < 0 || x > map.GetLength(0) - 1 || y < 0 || y > map.GetLength(1) - 1) return;
             if (map[x, y] == State.Visited || map[x, y] == State.Wall) return;
 
-            Program.Print(map);
+            Labirinth.Print(map);
             map[x, y] = State.Visited;
             var dx = new[] { -1, 0, 1, 0 };
             var dy = new[] { 0, -1, 0, 1 };
@@ -30,7 +30,7 @@ namespace GraphAlgorithms
                 if (point.X < 0 || point.X > map.GetLength(0) - 1 || point.Y < 0 || point.Y > map.GetLength(1) - 1) continue;
                 if (map[point.X, point.Y] == State.Visited || map[point.X, point.Y] == State.Wall) continue;
 
-                Program.Print(map);
+                Labirinth.Print(map);
                 map[point.X, point.Y] = State.Visited;
                 var dx = new[] { -1, 0, 1, 0 };
                 var dy = new[] { 0, -1, 0, 1 };
@@ -50,7 +50,7 @@ namespace GraphAlgorithms
                 if (point.X < 0 || point.X > map.GetLength(0) - 1 || point.Y < 0 || point.Y > map.GetLength(1) - 1) continue;
                 if (map[point.X, point.Y] == State.Visited || map[point.X, point.Y] == State.Wall) continue;
 
-                Program.Print(map);
+                Labirinth.Print(map);
                 map[point.X, point.Y] = State.Visited;
                 var dx = new[] { -1, 0, 1, 0 };
                 var dy = new[] { 0, -1, 0, 1 };

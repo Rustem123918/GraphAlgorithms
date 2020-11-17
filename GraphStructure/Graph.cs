@@ -33,10 +33,18 @@ namespace GraphAlgorithms
                 return Nodes.SelectMany(x => x.IncidentEdges).Distinct();
             }
         }
-
         public void Connect(int v1, int v2)
         {
             nodes[v1].Connect(nodes[v2]);
+        }
+        public static Graph MakeGraph(params int[] incidentNodes)
+        {
+            var graph = new Graph(incidentNodes.Max() + 1);
+            for(int i = 0; i<incidentNodes.Length-1; i+=2)
+            {
+                graph.Connect(incidentNodes[i], incidentNodes[i + 1]);
+            }
+            return graph;
         }
     }
 }
