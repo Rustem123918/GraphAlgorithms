@@ -6,15 +6,6 @@ namespace GraphAlgorithms
     {
         static void Main(string[] args)
         {
-            var map = new State[labyrinth[0].Length, labyrinth.Length];
-
-            for (int x = 0; x < map.GetLength(0); x++)
-                for (int y = 0; y < map.GetLength(1); y++)
-                    map[x, y] = labyrinth[y][x] == ' ' ? State.Empty : State.Wall;
-            //SearchAlgorithms.RecursionDFS(map, 0, 0);
-            //SearchAlgorithms.StackDFS(map, 0, 0);
-            SearchAlgorithms.QueueBFS(map, 0, 0);
-            Print(map);
         }
 
         static string[] labyrinth = new string[]
@@ -27,6 +18,19 @@ namespace GraphAlgorithms
         " XXX XXXXX",
         " X        ",
         };
+
+        static void LabirinthRun()
+        {
+            var map = new State[labyrinth[0].Length, labyrinth.Length];
+
+            for (int x = 0; x < map.GetLength(0); x++)
+                for (int y = 0; y < map.GetLength(1); y++)
+                    map[x, y] = labyrinth[y][x] == ' ' ? State.Empty : State.Wall;
+            //SearchAlgorithms.RecursionDFS(map, 0, 0);
+            //SearchAlgorithms.StackDFS(map, 0, 0);
+            SearchAlgorithms.QueueBFS(map, 0, 0);
+            Print(map);
+        }
 
         public static void Print(State[,] map)
         {
