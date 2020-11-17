@@ -38,5 +38,10 @@ namespace GraphAlgorithms
             edge.First.incidentEdges.Remove(edge);
             edge.Second.incidentEdges.Remove(edge);
         }
+
+        public override string ToString()
+        {
+            return Number.ToString();
+        }
     }
 }
