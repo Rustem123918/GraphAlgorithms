@@ -26,6 +26,14 @@ namespace GraphAlgorithms
                     yield return node;
             }
         }
+        public IEnumerable<Edge> Edges
+        {
+            get
+            {
+                return Nodes.SelectMany(x => x.IncidentEdges).Distinct();
+            }
+        }
+
         public void Connect(int v1, int v2)
         {
             nodes[v1].Connect(nodes[v2]);

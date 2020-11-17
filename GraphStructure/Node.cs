@@ -6,7 +6,7 @@ namespace GraphAlgorithms
 {
     public class Node
     {
-        private readonly List<Node> incidentNodes = new List<Node>();
+        private readonly List<Edge> incidentEdges = new List<Edge>();
         public readonly int Number;
         public Node(int number)
         {
@@ -16,14 +16,27 @@ namespace GraphAlgorithms
         {
             get
             {
-                foreach (var node in incidentNodes)
-                    yield return node;
+                return incidentEdges.Select(z => z.OtherNode(this));
+            }
+        }
+        public IEnumerable<Edge> IncidentEdges
+        {
+            get
+            {
+                foreach (var edge in incidentEdges)
+                    yield return edge;
             }
         }
         public void Connect(Node anotherNode)
         {
-            incidentNodes.Add(anotherNode);
-            anotherNode.incidentNodes.Add(this);
+            var edge = new Edge(this, anotherNode);
+            incidentEdges.Add(edge);
+            anotherNode.incidentEdges.Add(edge);
+        }
+        public void Disconnect(Edge edge)
+        {
+            edge.First.incidentEdges.Remove(edge);
+            edge.Second.incidentEdges.Remove(edge);
         }
     }
 }
