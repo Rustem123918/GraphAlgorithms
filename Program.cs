@@ -8,15 +8,18 @@ namespace GraphAlgorithms
         static void Main(string[] args)
         {
             var graph = Graph.MakeGraph(
-               0, 1,
-               0, 2,
-               1, 3,
-               1, 4,
-               2, 3,
-               2, 4);
+               0, 0,
+               1, 2,
+               3, 4,
+               4, 5,
+               3, 5);
 
-            foreach (var e in graph[0].DepthSearch())
-                Console.WriteLine(e.Number);
+            foreach(var compoment in graph.FindConnectedComponents())
+            {
+                foreach (var node in compoment)
+                    Console.Write(node.Number + " ");
+                Console.WriteLine();
+            }
         }
     }
 }

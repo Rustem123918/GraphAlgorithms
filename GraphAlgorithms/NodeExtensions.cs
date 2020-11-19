@@ -7,7 +7,6 @@ namespace GraphAlgorithms
 {
     public static class NodeExtensions
     {
-
         public static IEnumerable<Node> BreadthSearch(this Node startNode)
         {
             var visited = new HashSet<Node>();
@@ -38,6 +37,19 @@ namespace GraphAlgorithms
                 yield return node;
                 foreach (var nextNode in node.IncidentNodes)
                     stack.Push(nextNode);
+            }
+        }
+        public static IEnumerable<IEnumerable<Node>> FindConnectedComponents(this Graph graph)
+        {
+            var visited = new HashSet<Node>();
+            while(true)
+            {
+                var node = graph.Nodes.Where(n => !visited.Contains(n)).FirstOrDefault();
+                if (node == null) break;
+                var connectedComponent = node.BreadthSearch().ToList();
+                foreach (var visitedNode in connectedComponent)
+                    visited.Add(visitedNode);
+                yield return connectedComponent;
             }
         }
     }
