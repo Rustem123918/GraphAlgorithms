@@ -7,6 +7,8 @@ namespace GraphAlgorithms
 {
     public static class NodeExtensions
     {
+        #region Алгоритмы поиска
+        //Поиск в ширину
         public static IEnumerable<Node> BreadthSearch(this Node startNode)
         {
             var visited = new HashSet<Node>();
@@ -24,6 +26,7 @@ namespace GraphAlgorithms
                 }
             }
         }
+        //Поиск в глубину
         public static IEnumerable<Node> DepthSearch(this Node startNode)
         {
             var visited = new HashSet<Node>();
@@ -39,6 +42,8 @@ namespace GraphAlgorithms
                     stack.Push(nextNode);
             }
         }
+        #endregion
+        //Поиск компонент связности. Возвращает список компонент
         public static IEnumerable<IEnumerable<Node>> FindConnectedComponents(this Graph graph)
         {
             var visited = new HashSet<Node>();
@@ -52,6 +57,7 @@ namespace GraphAlgorithms
                 yield return connectedComponent;
             }
         }
+        //Поиск кратчайшего пути в невзвешенном графе
         public static IEnumerable<Node> FindTheShortestPath(this Graph graph, Node start, Node end)
         {
             var track = new Dictionary<Node, Node>();
@@ -88,5 +94,33 @@ namespace GraphAlgorithms
             list.Reverse();
             return list;
         }
+
+        #region Алгоритмы топологической сортировки
+        //Алгоритм Кана
+        public static List<Node> KahnAlgorithm(this Graph graph)
+        {
+            var topSort = new List<Node>();
+            var nodes = graph.Nodes.ToList();
+            while(nodes.Count!=0)
+            {
+                //Ищем вершину с нулевой степенью захода.
+                var nodeToDelete = nodes
+                    .Where(node => !node.IncidentEdges.Any(edge => edge.Second == node))
+                    .FirstOrDefault();
+
+                //Если вершин с нулевой степенью захода не найдено, значит в графе есть циклы.
+                //Если в графе есть циклы, то топологическая сортировка невозвожна. Возвращаем null
+                if (nodeToDelete == null) return null;
+                //Удаляем вершину из списка всех вершин (как бы отмечаем ее просмотренной)
+                nodes.Remove(nodeToDelete);
+                //Добавляем вершину в список вершин топологической сортировки
+                topSort.Add(nodeToDelete);
+                //Не забываем удалить все инцидентные ребра у этой вершины
+                foreach (var edge in nodeToDelete.IncidentEdges.ToList())
+                    graph.Delete(edge);
+            }
+            return topSort;
+        }
+        #endregion
     }
 }

@@ -37,6 +37,10 @@ namespace GraphAlgorithms
         {
             nodes[v1].Connect(nodes[v2]);
         }
+        public void Delete(Edge edge)
+        {
+            edge.First.Disconnect(edge);
+        }
         public static Graph MakeGraph(params int[] incidentNodes)
         {
             var graph = new Graph(incidentNodes.Max() + 1);
