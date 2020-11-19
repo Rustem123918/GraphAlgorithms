@@ -8,17 +8,15 @@ namespace GraphAlgorithms
         static void Main(string[] args)
         {
             var graph = Graph.MakeGraph(
-               0, 0,
-               1, 2,
-               3, 4,
-               4, 5,
-               3, 5);
+               0, 1,
+               1, 4,
+               0, 2,
+               2, 3,
+               3, 4);
 
-            foreach(var compoment in graph.FindConnectedComponents())
+            foreach(var e in graph.FindTheShortestPath(graph[1], graph[3]))
             {
-                foreach (var node in compoment)
-                    Console.Write(node.Number + " ");
-                Console.WriteLine();
+                Console.WriteLine(e);
             }
         }
     }
