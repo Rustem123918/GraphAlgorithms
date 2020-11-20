@@ -121,6 +121,55 @@ namespace GraphAlgorithms
             }
             return topSort;
         }
+
+        //Алгоритм Тарьяна
+        private enum State
+        {
+            White,
+            Gray,
+            Black
+        }
+        public static List<Node> TarjanAlgorithm(this Graph graph)
+        {
+            var topSort = new List<Node>();
+            var states = graph.Nodes.ToDictionary(node => node, node => State.White);
+            while(true)
+            {
+                var nodeToSearch = states
+                    .Where(p => p.Value == State.White)
+                    .Select(p => p.Key)
+                    .FirstOrDefault();
+                if (nodeToSearch == null) break;
+
+                if (!TarjanDepthSearch(nodeToSearch, states, topSort))
+                    return null;
+            }
+            topSort.Reverse();
+            return topSort;
+        }
+        //Рекурсивный метод, node - вершина, из которой запускается данный метод
+        private static bool TarjanDepthSearch(Node node, Dictionary<Node, State> states, List<Node> topSort)
+        {
+            //Если зашли в серую вершину - значит нашли цикл, вернем false и вернем null в методе TarjanAlgorithm
+            if (states[node] == State.Gray) return false;
+            //Если зашли в черную вершину, значит мы здесь уже были и запускать этот метод повторно не нужно, вернем true
+            if (states[node] == State.Black) return true;
+            //Если  зашли в белую вершину, значит мы здесь еще не были, отметим ее серым цветом и запустим рекурсивный алгоритм
+            states[node] = State.Gray;
+
+            //Далее выбираем все вершины, в которые можно прийти из данной вершины (Учитываем стрелочки на ребрах)
+            var outgoingNodes = node.IncidentEdges
+                .Where(edge => edge.First == node)
+                .Select(edge => edge.Second);
+            //Из всех найденных вершин запускаем этот метод рекурсивно. Если в процессе мы нашли цикл, то вернем false
+            foreach (var nextNode in outgoingNodes)
+                if (!TarjanDepthSearch(nextNode, states, topSort)) return false;
+
+            //Если все прошло удачно, то помечаем эту вершину черным цветом и добавляем ее в список топологической сортировки
+            states[node] = State.Black;
+            topSort.Add(node);
+            return true;
+        }
         #endregion
     }
 }
